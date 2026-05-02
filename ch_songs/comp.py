@@ -34,7 +34,9 @@ except IndexError:
 #
 # Do pandas things
 #
-cols = ['Artist', 'Song Name', 'Author of Custom (CLICK HERE TO FIND THE FILES)']
+old_auth = 'Author of Custom (CLICK HERE TO FIND THE FILES)'
+new_auth = 'Author of Custom'
+cols = ['Artist', 'Song Name', new_auth]
 
 max_rows = 999
 max_cols = 999
@@ -56,6 +58,9 @@ pd.options.display.expand_frame_repr = False
 
 prev = pd.read_csv(prev_file)
 curr = pd.read_csv(curr_file)
+
+if old_auth in prev.columns:
+    prev = prev.rename(columns={old_auth: new_auth})
 
 m = curr.merge(prev, on=cols, how='left', indicator=True)
 
